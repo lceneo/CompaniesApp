@@ -1,0 +1,57 @@
+body{
+    font-family: Consolas, sans-serif;
+}
+header, footer{
+    height: 100px;
+    background-image: url("../img/header_bg.jpg");
+    margin-left: -8px;
+    margin-top: -10px;
+    background-size: cover;
+}
+footer{
+    margin-bottom: -10px;
+}
+
+.main__title{
+    text-align: center;
+    color: cornflowerblue;
+    margin-bottom: -5px;
+}
+.main__companies{
+    margin: 0 auto;
+    width: 1300px;
+}
+.main__description{
+    text-align: center;
+    color: gray;
+    margin-bottom: 50px;
+}
+
+.main__subtitle{
+    margin-left: 50px;
+}
+.main__company-wrapper{
+    display: flex;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    margin-bottom: 20px;
+}
+.main__company-description{
+    order: 1;
+    margin-left: 130px;
+    padding-top: 15px;
+    align-items: flex-start;
+    margin-top: -30px;
+}
+.main__company-name{
+    font-size: 30px;
+    margin-bottom: -10px;
+    text-decoration: underline;
+    text-decoration-color: #00c6bd;
+    text-underline-offset: 10px;
+    text-decoration-thickness: 2px;
+}
+.main__company-catchPhrase{
+    color: gray;
+    font-style: italic;
+}
