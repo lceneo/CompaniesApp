@@ -1,4 +1,4 @@
-interface ICompany{
+ interface ICompany{
     bs_company_statement: string;
     business_name: string;
     buzzword: string;
@@ -41,9 +41,11 @@ class CompanyApp{
     }
     public displayCompanies(companiesToDisplay: ICompany[]) : void{
         const companiesListElement = document.querySelector(".main__companies-list");
-        companiesToDisplay.forEach(c => companiesListElement!.append(this.createCompanyElement(c)))
+        for (let i = this.companiesList.length - companiesToDisplay.length; i < this.companiesList.length ; i++) {
+            companiesListElement!.append(this.createCompanyElement(this.companiesList[i],i))
+        }
     }
-    public createCompanyElement(company: ICompany){
+    public createCompanyElement(company: ICompany, index: number){
         const companyWrapperElement = document.createElement("div");
         companyWrapperElement.innerHTML = `
         <div class="main__company-description">
@@ -52,11 +54,17 @@ class CompanyApp{
             <p>Вид деятельности: ${company.industry}</p>
             <p>Тип компании: ${company.type}</p>
         </div>
-        <div>
+        <div class="main__company-logo__wrapper">
             <img class = "main__company-logo" src=${company.logo} alt = Лого:${company.business_name} width="650px" height="250px">
         </div>`;
         companyWrapperElement.classList.add("main__company-wrapper")
-        return companyWrapperElement;
+        companyWrapperElement.id = `${index}`
+        companyWrapperElement.addEventListener("click",
+            (ev) => {
+            localStorage.setItem("test", JSON.stringify(this.companiesList[parseInt(companyWrapperElement.id)]));
+            window.location.href = "../../src/pages/company_info.html";
+        });
+            return companyWrapperElement;
     }
 }
 

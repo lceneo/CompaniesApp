@@ -1,0 +1,10 @@
+header, footer{
+    height: 100px;
+    background-image: url("../img/header_bg.jpg");
+    margin-left: -8px;
+    margin-top: -10px;
+    background-size: cover;
+}
+footer{
+    margin-bottom: -10px;
+}

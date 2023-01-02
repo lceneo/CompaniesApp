@@ -1,16 +1,6 @@
 body{
     font-family: Consolas, sans-serif;
 }
-header, footer{
-    height: 100px;
-    background-image: url("../img/header_bg.jpg");
-    margin-left: -8px;
-    margin-top: -10px;
-    background-size: cover;
-}
-footer{
-    margin-bottom: -10px;
-}
 
 .main__title{
     text-align: center;
@@ -54,4 +44,11 @@ footer{
 .main__company-catchPhrase{
     color: gray;
     font-style: italic;
+}
+.main__company-wrapper:hover{
+    transform: scale(1.03);
+    cursor: pointer;
+}
+.main__company-wrapper{
+    transition: transform 0.25s;
 }

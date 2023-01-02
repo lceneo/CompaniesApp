@@ -1,0 +1,72 @@
+body{
+    font-family: Consolas, sans-serif;
+}
+nav{
+    padding-top: 35px;
+}
+.navigation__link{
+    margin-left: 45%;
+    color: dodgerblue;
+    font-size: 25px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: 0.5s;
+    overflow: hidden;
+}
+.navigation__link:hover{
+    font-size: 30px;
+    text-shadow: 1px 1px 2px darkblue, 0 0 1em blue, 0 0 0.2em blue;
+    cursor: pointer;
+}
+.main__company-wrapper{
+    display: flex;
+    width: 1300px;
+    margin: 60px auto;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    margin-bottom: 30px;
+}
+.main__company-description{
+    display: flex;
+    flex-direction: column;
+    margin-left: 130px;
+    padding-top: 15px;
+    margin-top: -30px;
+}
+
+.main__company-name{
+    order: -2;
+    font-size: 30px;
+    margin-bottom: -10px;
+    text-decoration: underline;
+    text-decoration-color: #00c6bd;
+    text-underline-offset: 10px;
+    text-decoration-thickness: 2px;
+}
+.main__company-catchPhrase {
+    order: -1;
+    color: gray;
+    font-style: italic;
+}
+.main__company-description p{
+    margin-bottom: 0px;
+}
+.main__company-description p:last-child{
+    margin-bottom: 20px;
+}
+.main__company-description img{
+    margin-top: 15px;
+}
+
+.main__company-location{
+    margin-left: 100px;
+    width: 500px;
+    height: 350px;
+    margin-top: 5px;
+    padding: 0px;
+    margin-bottom: 70px;
+}
+
+.main__company-location h2{
+    margin: 0px;
+    margin-bottom: 10px;
+}
