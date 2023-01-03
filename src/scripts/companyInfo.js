@@ -2,11 +2,11 @@ var CompanyDetailedInfo = /** @class */ (function () {
     function CompanyDetailedInfo(companyToDisplay) {
         this.companyToDisplay = companyToDisplay;
         this.createCompanySection();
-        console.log(companyToDisplay.latitude);
-        console.log(companyToDisplay.longitude);
     }
     CompanyDetailedInfo.prototype.createMap = function () {
         var _this = this;
+        //подавляет ошибку ненахождения ymaps, который подключается через YMaps-api
+        // @ts-ignore
         ymaps.ready(function () { return new ymaps.Map(document.querySelector(".main__company-location"), {
             center: [_this.companyToDisplay.latitude, _this.companyToDisplay.longitude],
             zoom: 7

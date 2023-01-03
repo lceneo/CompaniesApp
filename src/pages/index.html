@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <link type="text/css" rel="stylesheet" href="../styles/main_page.css" />
+    <link type="text/css" rel="stylesheet" href="../styles/header_footer.css" />
+    <title>CompaniesApp</title>
+</head>
+<body>
+    <header>
+
+    </header>
+    <main>
+        <h1 class = "main__title">Companies List</h1>
+        <p class="main__description">Сервис, зарегистрированных в нашей сети и доступных для Вашего просмотра компаний.<br>
+            Вы можете получить дополнительную детальную информацию о компании, нажав на её логотип или название</p>
+        <div class="main__form-wrapper" style="display: none">
+            <div class="main__button-close"></div>
+            <form class="main__form">
+                <div>
+                    Название компании <input class="main__form-name" type="text"> <p>*обязательное поле; не более 15 символов</p>
+                </div>
+                <div>
+                        Вид деятельности <select class="main__form-type" name="select">
+                        <option value="None">None</option>
+                        <option value="Forestry and logging">Forestry and logging</option>
+                        <option value="Coal mining">Coal mining</option>
+                        <option value="Furniture manufacture">Furniture manufacture</option>
+                        <option value="Research and development">Research and development</option>
+                        <option value="Activities of public organizations">Activities of public organizations</option>
+                    </select><p>*обязательное поле</p>
+                </div>
+                <div>
+                    Присутствие на Российском рынке <input class="main__form-checkbox" type="checkbox">
+                </div>
+            </form>
+            <button class="main__button-save">Сохранить</button>
+        </div>
+        <button class="main__button-add">Добавить компанию</button>
+        <section class="main__companies">
+            <h2 class="main__subtitle">Все компании:</h2>
+            <ul class="main__companies-list"></ul>
+        </section>
+    </main>
+    <footer>
+    </footer>
+    <script src = "../scripts/solution.js"></script>
+</body>
+</html>

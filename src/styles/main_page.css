@@ -52,3 +52,123 @@ body{
 .main__company-wrapper{
     transition: transform 0.25s;
 }
+
+.main__form-wrapper{
+    position: relative;
+    width:100%;
+    min-height:100%;
+    background-color: rgba(0,0,0,0.5);
+    overflow:hidden;
+    position:fixed;
+    top:0px;
+}
+.main__form-wrapper .main__form{
+    margin:40px auto 0px auto;
+    width:500px;
+    height: 500px;
+    padding-top: 30px;
+    background-color: #c5c5c5;
+    border-radius:5px;
+    box-shadow: 0px 0px 10px #000;
+}
+
+.main__form{
+    font-size: 20px;
+    display: flex;
+    padding-left: 30px;
+    flex-direction: column;
+}
+.main__form div{
+    margin-bottom: 30px;
+}
+.main__form select{
+    height: 30px;
+}
+
+.main__form input[type=checkbox]{
+    width: 5mm;
+    height: 5mm;
+    border: 0.1mm solid black;
+    margin-top: 5px;
+    align-self: center;
+}
+
+.main__form input{
+    height: 20px;
+}
+.main__button-save{
+    position: absolute;
+    background-color: blue;
+    color: papayawhip;
+    font-size: 25px;
+    padding: 10px;
+    border-color: darkblue;
+    width: 300px;
+    border-radius: 10%;
+    left: 39%;
+    bottom: 125px;
+}
+.main__button-save:hover{
+    cursor: pointer;
+}
+.main__form p{
+    margin: 0px;
+    margin-left: 220px;
+    margin-top: 5px;
+    color: gray;
+    font-style: italic;
+    font-size: 14px;
+}
+.main__button-add{
+    background-color: blue;
+    color: papayawhip;
+    border-color: darkblue;
+    font-size: 22px;
+    width: 390px;
+    height: 45px;
+    top: 250px;
+    padding: 10px;
+    position: absolute;
+    right: 25px;
+    transition: transform 0.25s;
+}
+.main__button-add:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+}
+.main__button-close{
+    position: absolute;
+    transition: transform 0.25s;
+    top: 5px;
+    right: 30px;
+    width: 55px;
+    height: 55px;
+    cursor: pointer;
+    background-color: #a22642;
+    border: 4px solid #e62f57;
+    border-radius: 50%;
+}
+
+.main__button-close:before,
+.main__button-close:after {
+    content: "";
+    position: absolute;
+    top: 25px;
+    left: 15px;
+    width: 26px;
+    height: 4px;
+    background-color: red;
+}
+
+.main__button-close:before {
+    webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.main__button-close:after {
+    webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+.main__button-close:hover{
+    transform: scale(1.1);
+}

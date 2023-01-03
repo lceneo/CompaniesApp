@@ -1,10 +1,10 @@
 class CompanyDetailedInfo{
-    constructor(public companyToDisplay: ICompany){
+    constructor(public companyToDisplay: Company){
         this.createCompanySection();
-        console.log(companyToDisplay.latitude)
-        console.log(companyToDisplay.longitude)
     }
     public createMap(){
+        //подавляет ошибку ненахождения ymaps, который подключается через YMaps-api
+        // @ts-ignore
         ymaps.ready(() => new ymaps.Map(document.querySelector(".main__company-location"),
                 {
                     center: [this.companyToDisplay.latitude, this.companyToDisplay.longitude],
