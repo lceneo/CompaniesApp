@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 module.exports = {
     mode: 'development',
     entry: {
-        styles: './src/styles/main_page.css'
+        styles: './src/styles/authorization_page_page.css'
     },
     output: {
         clean: false,
@@ -21,7 +21,7 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: '[name].[contenthash].css'
         }),
-        new HtmlWebpackPlugin({template: "./src/index.html"})
+        new HtmlWebpackPlugin({template: "./src/authorization_page.html"})
     ],
     module: {
         rules: [

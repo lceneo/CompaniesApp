@@ -45,7 +45,7 @@ class CompanyApp{
         document.querySelector(".main__button-save")!.addEventListener("click",
             () => {
                 if(this.formIsFilled()) {
-                    const companyNameElement = document.querySelector(".main__form-name") as HTMLInputElement;
+                    const companyNameElement = document.querySelector(".main__form-name") as HTMLInputElementas HTMLInputElement;
                     const companyIndustryElement = document.querySelector(".main__form-type") as HTMLSelectElement;
                     const companyInRussia = document.querySelector(".main__form-checkbox") as HTMLInputElement;
                     // остальные заполняем undefined
@@ -111,7 +111,7 @@ class CompanyApp{
         companyWrapperElement.addEventListener("click",
             (ev) => {
             localStorage.setItem("test", JSON.stringify(this.companiesList[parseInt(companyWrapperElement.id)]));
-            window.location.href = "../pages/company_info.html";
+            window.location.href = "company_info.html";
         });
             return companyWrapperElement;
     }

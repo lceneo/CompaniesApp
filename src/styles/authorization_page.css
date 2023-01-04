@@ -1,0 +1,54 @@
+body{
+    font-family: Consolas, sans-serif;
+}
+
+.main__wrapper{
+    position: relative;
+    display: flex;
+    width: 450px;
+    height: 250px;
+    margin: 0 auto;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    flex-direction: column;
+    padding-top: 30px;
+    margin-top: 90px;
+    margin-bottom: 99px;
+}
+
+.main__wrapper div{
+    margin: 0 auto;
+    margin-bottom: 25px;
+    font-size: 20px;
+}
+.main__wrapper-login{
+    margin-left: 15px;
+}
+.main__button{
+    font-size: 25px;
+    background-color: blue;
+    color: papayawhip;
+    border-color: darkblue;
+    position: absolute;
+    bottom: 20px;
+    width: 200px;
+    height: 40px;
+    left: 28%;
+    width: border-box;
+}
+.main__button:hover{
+    cursor: pointer;
+}
+.main__wrapper .main__wrapper-checkbox{
+    font-size: 15px;
+    color: gray;
+    font-style: italic;
+}
+.main__wrapper-registration{
+    color: blue;
+    text-shadow: 0 0 10px rgba(0,0,0,0.3);;
+    transition: 0.25s;
+}
+.main__wrapper-registration:hover{
+    cursor: pointer;
+    transform: scale(1.03);
+}

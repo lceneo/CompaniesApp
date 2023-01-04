@@ -94,7 +94,7 @@ var CompanyApp = /** @class */ (function () {
         var _this = this;
         document.querySelector(".main__button-save").addEventListener("click", function () {
             if (_this.formIsFilled()) {
-                var companyNameElement = document.querySelector(".main__form-name");
+                var companyNameElement = document.querySelector(".main__form-name"), HTMLInputElement_1;
                 var companyIndustryElement = document.querySelector(".main__form-type");
                 var companyInRussia = document.querySelector(".main__form-checkbox");
                 // остальные заполняем undefined
@@ -163,7 +163,7 @@ var CompanyApp = /** @class */ (function () {
         companyWrapperElement.id = "".concat(index);
         companyWrapperElement.addEventListener("click", function (ev) {
             localStorage.setItem("test", JSON.stringify(_this.companiesList[parseInt(companyWrapperElement.id)]));
-            window.location.href = "../pages/company_info.html";
+            window.location.href = "company_info.html";
         });
         return companyWrapperElement;
     };
