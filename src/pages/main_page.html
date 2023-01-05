@@ -8,7 +8,18 @@
 </head>
 <body>
     <header>
-
+        <ul class="buttons__list">
+            <li class="buttons-item">
+                <button class="buttons-item__enter">Войти</button>
+            </li>
+            <li class="buttons-item__exit">
+                <button>Выйти</button>
+            </li>
+        </ul>
+        <div class = "profile__wrapper">
+            <p class="profile__wrapper-user"></p>
+            <img src="../img/profile_img.png" width="50px" height="40px">
+        </div>
     </header>
     <main>
         <h1 class = "main__title">Companies List</h1>
@@ -29,6 +40,9 @@
                         <option value="Research and development">Research and development</option>
                         <option value="Activities of public organizations">Activities of public organizations</option>
                     </select><p>*обязательное поле</p>
+                </div>
+                <div>
+                    Лого<input class="form__logo" type="file">
                 </div>
                 <div>
                     Присутствие на Российском рынке <input class="main__form-checkbox" type="checkbox">

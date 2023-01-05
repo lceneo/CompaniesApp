@@ -1,8 +1,16 @@
 body{
     font-family: Consolas, sans-serif;
 }
-
-.main__wrapper{
+.title{
+    text-align: center;
+    color: cornflowerblue;
+    margin-bottom: -5px;
+    transition: 0.5s;
+}
+.title:hover{
+    text-shadow: 1px 1px 2px darkblue, 0 0 1em blue, 0 0 0.2em blue;
+}
+.wrapper{
     position: relative;
     display: flex;
     width: 450px;
@@ -11,19 +19,29 @@ body{
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
     flex-direction: column;
     padding-top: 30px;
-    margin-top: 90px;
+    margin-top: 30px;
     margin-bottom: 99px;
 }
 
-.main__wrapper div{
-    margin: 0 auto;
+.wrapper div{
+    margin: 0px auto;
     margin-bottom: 25px;
     font-size: 20px;
 }
-.main__wrapper-login{
+.wrapper__div{
+    position: relative;
+    padding-left: 20px;
+}
+.wrapper__div-img{
+    position: absolute;
+    left: -50px;
+    top: -10px;
+}
+
+.wrapper__div-login{
     margin-left: 15px;
 }
-.main__button{
+.wrapper__addBtn{
     font-size: 25px;
     background-color: blue;
     color: papayawhip;
@@ -34,21 +52,29 @@ body{
     height: 40px;
     left: 28%;
     width: border-box;
+    transition: 0.25s;
 }
-.main__button:hover{
+.wrapper__addBtn:hover{
     cursor: pointer;
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
 }
-.main__wrapper .main__wrapper-checkbox{
+.wrapper .wrapper-checkbox{
     font-size: 15px;
     color: gray;
     font-style: italic;
+    margin-top: 0px;
 }
-.main__wrapper-registration{
+.wrapper-repeat{
+    padding-left: 15px;
+}
+.wrapper-registration{
     color: blue;
     text-shadow: 0 0 10px rgba(0,0,0,0.3);;
     transition: 0.25s;
+    margin-top: 0px;
 }
-.main__wrapper-registration:hover{
+.wrapper-registration:hover{
     cursor: pointer;
     transform: scale(1.03);
 }

@@ -1,7 +1,43 @@
 body{
     font-family: Consolas, sans-serif;
 }
-
+.buttons__list{
+    display: flex;
+    padding-top: 10px;
+    justify-content: flex-end;
+    padding-right: 20px;
+    list-style: none;
+}
+.buttons__list button{
+    background-color: blue;
+    color: papayawhip;
+    border-color: darkblue;
+    height: 35px;
+    font-size: 18px;
+    width: 80px;
+    transition: 0.25s;
+}
+.buttons__list button:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+}
+.profile__wrapper{
+    display: flex;
+    justify-content: flex-end;
+}
+.profile__wrapper img{
+    margin-top: 10px;
+    margin-right: 70px;
+    transition: 0.25s;
+}
+.profile__wrapper img:hover{
+    transform: scale(1.1);
+}
+.profile__wrapper-user{
+    margin-right: 30px;
+    font-size: 18px;
+    color: papayawhip;
+}
 .main__title{
     text-align: center;
     color: cornflowerblue;
@@ -107,6 +143,9 @@ body{
     border-radius: 10%;
     left: 39%;
     bottom: 125px;
+}
+.form__logo{
+    margin-left: 140px;
 }
 .main__button-save:hover{
     cursor: pointer;
