@@ -61,19 +61,66 @@ var CompanyApp = /** @class */ (function () {
         var _this = this;
         this.companiesCount = companiesCount;
         this.companiesList = [];
-        this.fillCompanies(companiesCount)
-            .then(function (v) { return window.addEventListener("scroll", _this.addNewCompanies.bind(_this)); })
-            .then(function (v) { return _this.initialiseAllBtns(); });
+        if (this.checkIfHashed()) {
+            // @ts-ignore
+            this.displayCompanies(this.companiesList);
+            window.addEventListener("scroll", this.addNewCompanies.bind(this));
+            this.initialiseAllBtns();
+        }
+        else {
+            this.fillCompanies(companiesCount)
+                .then(function (v) { return window.addEventListener("scroll", _this.addNewCompanies.bind(_this)); })
+                .then(function (v) { return _this.initialiseAllBtns(); });
+        }
+        this.initialiseProfile();
     }
+    CompanyApp.prototype.checkIfHashed = function () {
+        var companiesValue = localStorage.getItem("$companiesList");
+        if (localStorage.getItem("$companiesList") !== null) {
+            this.companiesList = JSON.parse(companiesValue);
+            return true;
+        }
+        return false;
+    };
+    CompanyApp.prototype.initialiseProfile = function () {
+        var _a;
+        document.querySelector(".profile__wrapper-user").textContent
+            = (_a = localStorage.getItem("$authorized")) !== null && _a !== void 0 ? _a : "не авторизован";
+    };
     CompanyApp.prototype.addNewCompanies = function () {
         var companyElem = document.querySelector(".main__company-logo");
-        if (window.pageYOffset >= companyElem.scrollHeight * (this.companiesList.length - 2))
+        if (document.body.scrollHeight - window.pageYOffset <= window.innerHeight)
             this.fillCompanies(this.companiesCount);
+        //if(window.pageYOffset >= companyElem!.scrollHeight * (this.companiesList.length - 2))
+        //this.fillCompanies(this.companiesCount);
     };
     CompanyApp.prototype.initialiseAllBtns = function () {
         this.initialiseAddBtn();
         this.initialiseSaveBtn();
         this.initialiseCloseBtn();
+        this.initialiseEnterBtn();
+        this.initialiseExitBtn();
+    };
+    CompanyApp.prototype.initialiseEnterBtn = function () {
+        document.querySelector(".buttons-item__enter")
+            .addEventListener("click", function () {
+            if (localStorage.getItem("$authorized") === null)
+                window.location.href = "authorization_page.html";
+            else
+                alert("Вы уже авторизованы!");
+        });
+    };
+    CompanyApp.prototype.initialiseExitBtn = function () {
+        var _this = this;
+        document.querySelector(".buttons-item__exit")
+            .addEventListener("click", function () {
+            if (localStorage.getItem("$authorized") === null)
+                alert("Вы не авторизованы!");
+            else {
+                localStorage.removeItem("$authorized");
+                _this.initialiseProfile();
+            }
+        });
     };
     CompanyApp.prototype.initialiseCloseBtn = function () {
         var btn = document.querySelector(".main__button-close");
@@ -84,22 +131,32 @@ var CompanyApp = /** @class */ (function () {
     };
     CompanyApp.prototype.initialiseAddBtn = function () {
         document.querySelector(".main__button-add").addEventListener("click", function () {
+            if (localStorage.getItem("$authorized") === null) {
+                alert("Отказано в доступе. Сначала авторизуйтесь!");
+                return;
+            }
             this.style.display = "none";
             document.querySelector(".main__form-wrapper").style.display = "block";
             document.querySelector(".main__form-name").value = "";
             document.querySelector(".main__form-type").value = "None";
         });
     };
+    CompanyApp.prototype.uploadCompanyLogo = function (logo) {
+        console.log(logo.files);
+        return logo.files.length !== 0 ? URL.createObjectURL(logo.files[0]) : undefined;
+    };
     CompanyApp.prototype.initialiseSaveBtn = function () {
         var _this = this;
         document.querySelector(".main__button-save").addEventListener("click", function () {
             if (_this.formIsFilled()) {
-                var companyNameElement = document.querySelector(".main__form-name"), HTMLInputElement_1;
+                var companyNameElement = document.querySelector(".main__form-name");
                 var companyIndustryElement = document.querySelector(".main__form-type");
                 var companyInRussia = document.querySelector(".main__form-checkbox");
+                console.log(document.querySelector(".form__logo"));
+                var companyLogo = _this.uploadCompanyLogo(document.querySelector(".form__logo"));
                 // остальные заполняем undefined
                 // @ts-ignore
-                var newCompany = new Company(companyNameElement.value, companyIndustryElement.value, undefined, companyInRussia.checked);
+                var newCompany = new Company(companyNameElement.value, companyIndustryElement.value, companyLogo, companyInRussia.checked);
                 _this.companiesList.push(newCompany);
                 _this.displayCompanies([newCompany]);
                 companyNameElement.value = "";
@@ -162,7 +219,12 @@ var CompanyApp = /** @class */ (function () {
         companyWrapperElement.classList.add("main__company-wrapper");
         companyWrapperElement.id = "".concat(index);
         companyWrapperElement.addEventListener("click", function (ev) {
-            localStorage.setItem("test", JSON.stringify(_this.companiesList[parseInt(companyWrapperElement.id)]));
+            if (localStorage.getItem("$authorized") === null) {
+                alert("Отказано в доступе. Сначала авторизуйтесь!");
+                return;
+            }
+            localStorage.setItem("$company", JSON.stringify(_this.companiesList[parseInt(companyWrapperElement.id)]));
+            localStorage.setItem("$companiesList", JSON.stringify(_this.companiesList));
             window.location.href = "company_info.html";
         });
         return companyWrapperElement;

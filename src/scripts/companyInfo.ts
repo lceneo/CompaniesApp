@@ -1,6 +1,7 @@
 class CompanyDetailedInfo{
     constructor(public companyToDisplay: Company){
         this.createCompanySection();
+        this.initialiseReturnBtn();
     }
     public createMap(){
         //подавляет ошибку ненахождения ymaps, который подключается через YMaps-api
@@ -10,6 +11,10 @@ class CompanyDetailedInfo{
                     center: [this.companyToDisplay.latitude, this.companyToDisplay.longitude],
                     zoom: 7
                 }));
+    }
+    public initialiseReturnBtn(){
+        document.querySelector(".navigation__link")!
+            .addEventListener("click", () => window.location.href = "main_page.html");
     }
     public createCompanySection(): void{
         const companyWrapper = document.createElement("div");
@@ -32,4 +37,4 @@ class CompanyDetailedInfo{
     }
 }
 
-new CompanyDetailedInfo(JSON.parse(localStorage.getItem("test") as string));
+new CompanyDetailedInfo(JSON.parse(localStorage.getItem("$company") as string));

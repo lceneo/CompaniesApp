@@ -8,21 +8,65 @@
 class CompanyApp{
     public companiesList: Company[] = [];
     constructor(public companiesCount: number) {
-        this.fillCompanies!(companiesCount)
-            .then(v => window.addEventListener("scroll",
-                this.addNewCompanies.bind(this)))
-            .then(v => this.initialiseAllBtns());
+        if(this.checkIfHashed()){
+            // @ts-ignore
+            this.displayCompanies(this.companiesList);
+            window.addEventListener("scroll", this.addNewCompanies.bind(this));
+            this.initialiseAllBtns();
+        }
+        else {
+            this.fillCompanies!(companiesCount)
+                .then(v => window.addEventListener("scroll",
+                    this.addNewCompanies.bind(this)))
+                .then(v => this.initialiseAllBtns());
+        }
+        this.initialiseProfile();
     }
-
+    public checkIfHashed(): boolean{
+        const companiesValue = localStorage.getItem("$companiesList");
+        if(localStorage.getItem("$companiesList") !== null){
+            this.companiesList = JSON.parse(companiesValue as string);
+            return true;
+        }
+        return false;
+    }
+    public initialiseProfile(): void{
+        document.querySelector(".profile__wrapper-user")!.textContent
+            = localStorage.getItem("$authorized") ?? "не авторизован";
+    }
     public addNewCompanies(): void{
         const companyElem = document.querySelector(".main__company-logo");
-        if(window.pageYOffset >= companyElem!.scrollHeight * (this.companiesList.length - 2))
+        if(document.body.scrollHeight - window.pageYOffset <= window.innerHeight)
             this.fillCompanies(this.companiesCount);
+        //if(window.pageYOffset >= companyElem!.scrollHeight * (this.companiesList.length - 2))
+            //this.fillCompanies(this.companiesCount);
     }
     public initialiseAllBtns(): void{
         this.initialiseAddBtn();
         this.initialiseSaveBtn();
         this.initialiseCloseBtn();
+        this.initialiseEnterBtn();
+        this.initialiseExitBtn();
+    }
+    public initialiseEnterBtn(): void{
+        document.querySelector(".buttons-item__enter")!
+            .addEventListener("click", () => {
+                if (localStorage.getItem("$authorized") === null)
+                    window.location.href = "authorization_page.html";
+                else
+                    alert("Вы уже авторизованы!");
+            });
+    }
+    public initialiseExitBtn(): void{
+        document.querySelector(".buttons-item__exit")!
+            .addEventListener("click", () => {
+                if (localStorage.getItem("$authorized") === null)
+                    alert("Вы не авторизованы!")
+                else {
+                    localStorage.removeItem("$authorized");
+                    this.initialiseProfile();
+                }
+            });
     }
     public initialiseCloseBtn(): void{
         const btn = document.querySelector(".main__button-close");
@@ -35,22 +79,32 @@ class CompanyApp{
     public initialiseAddBtn(): void{
         (document.querySelector(".main__button-add") as HTMLElement).addEventListener("click",
             function (){
+            if(localStorage.getItem("$authorized") === null){
+                alert("Отказано в доступе. Сначала авторизуйтесь!")
+                return;
+            }
             this.style.display = "none";
             (document.querySelector(".main__form-wrapper") as HTMLElement).style.display = "block";
             (document.querySelector(".main__form-name") as HTMLInputElement).value = "";
             (document.querySelector(".main__form-type") as HTMLSelectElement).value = "None";
         });
     }
+    public uploadCompanyLogo(logo: HTMLInputElement): string | undefined{
+        console.log(logo.files);
+        return logo!.files!.length !== 0 ? URL.createObjectURL(logo!.files![0]) : undefined;
+    }
     public initialiseSaveBtn(): void{
         document.querySelector(".main__button-save")!.addEventListener("click",
             () => {
                 if(this.formIsFilled()) {
-                    const companyNameElement = document.querySelector(".main__form-name") as HTMLInputElementas HTMLInputElement;
+                    const companyNameElement = document.querySelector(".main__form-name") as HTMLInputElement;
                     const companyIndustryElement = document.querySelector(".main__form-type") as HTMLSelectElement;
                     const companyInRussia = document.querySelector(".main__form-checkbox") as HTMLInputElement;
+                    console.log(document.querySelector(".form__logo"));
+                    const companyLogo = this.uploadCompanyLogo(document.querySelector(".form__logo") as HTMLInputElement);
                     // остальные заполняем undefined
                     // @ts-ignore
-                    const newCompany = new Company(companyNameElement.value,companyIndustryElement.value, undefined, companyInRussia.checked);
+                    const newCompany = new Company(companyNameElement.value,companyIndustryElement.value, companyLogo, companyInRussia.checked);
                     this.companiesList.push(newCompany);
                     this.displayCompanies([newCompany]);
                     companyNameElement.value = "";
@@ -110,7 +164,12 @@ class CompanyApp{
         companyWrapperElement.id = `${index}`
         companyWrapperElement.addEventListener("click",
             (ev) => {
-            localStorage.setItem("test", JSON.stringify(this.companiesList[parseInt(companyWrapperElement.id)]));
+            if(localStorage.getItem("$authorized") === null){
+                alert("Отказано в доступе. Сначала авторизуйтесь!")
+                return;
+            }
+            localStorage.setItem("$company", JSON.stringify(this.companiesList[parseInt(companyWrapperElement.id)]));
+            localStorage.setItem("$companiesList", JSON.stringify(this.companiesList));
             window.location.href = "company_info.html";
         });
             return companyWrapperElement;

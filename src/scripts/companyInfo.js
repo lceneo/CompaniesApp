@@ -2,6 +2,7 @@ var CompanyDetailedInfo = /** @class */ (function () {
     function CompanyDetailedInfo(companyToDisplay) {
         this.companyToDisplay = companyToDisplay;
         this.createCompanySection();
+        this.initialiseReturnBtn();
     }
     CompanyDetailedInfo.prototype.createMap = function () {
         var _this = this;
@@ -12,6 +13,10 @@ var CompanyDetailedInfo = /** @class */ (function () {
             zoom: 7
         }); });
     };
+    CompanyDetailedInfo.prototype.initialiseReturnBtn = function () {
+        document.querySelector(".navigation__link")
+            .addEventListener("click", function () { return window.location.href = "main_page.html"; });
+    };
     CompanyDetailedInfo.prototype.createCompanySection = function () {
         var companyWrapper = document.createElement("div");
         companyWrapper.classList.add("main__company-wrapper");
@@ -21,4 +26,4 @@ var CompanyDetailedInfo = /** @class */ (function () {
     };
     return CompanyDetailedInfo;
 }());
-new CompanyDetailedInfo(JSON.parse(localStorage.getItem("test")));
+new CompanyDetailedInfo(JSON.parse(localStorage.getItem("$company")));

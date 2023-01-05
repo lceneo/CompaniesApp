@@ -1,20 +1,34 @@
 var Authorization = /** @class */ (function () {
     function Authorization() {
         this.initialiseAllBtns();
+        localStorage.removeItem("$companiesList");
     }
     Authorization.prototype.initialiseAllBtns = function () {
         this.inititaliseEnterBtn();
         this.initialiseRegistrationRedirectBtn();
+        this.initialiseCheckBox();
+    };
+    Authorization.prototype.initialiseCheckBox = function () {
+        document.querySelector("input[type = checkbox]")
+            .addEventListener("change", function () {
+            //@ts-ignore нужно обращаться к чекбоксу
+            var checkbox = this;
+            var password = checkbox.parentNode.parentNode
+                .querySelector(".wrapper-password");
+            if (checkbox.checked)
+                password.type = "text";
+            else
+                password.type = "password";
+        });
     };
     Authorization.prototype.inititaliseEnterBtn = function () {
         var _this = this;
-        var enterBtn = document.querySelector(".main__button");
-        var login = document.querySelector(".main__wrapper-login");
-        var password = document.querySelector(".main__wrapper-password");
+        var enterBtn = document.querySelector(".wrapper__addBtn");
+        var login = document.querySelector(".wrapper__div-login");
+        var password = document.querySelector(".wrapper-password");
         enterBtn.addEventListener("click", function () {
             if (enterBtn.textContent === "Сохранить") {
                 _this.registerNewUser(login, password);
-                console.log(localStorage.getItem(login.value));
                 return;
             }
             var passwordInStorage = localStorage.getItem(login.value);
@@ -25,18 +39,18 @@ var Authorization = /** @class */ (function () {
                 return;
             }
             localStorage.setItem("$authorized", "".concat(login.value));
-            window.location.href = "index.html";
+            window.location.href = "main_page.html";
         });
     };
     Authorization.prototype.initialiseRegistrationRedirectBtn = function () {
-        var registrationBtn = document.querySelector(".main__wrapper-registration");
+        var registrationBtn = document.querySelector(".wrapper-registration");
         registrationBtn
             .addEventListener("click", function () {
             // @ts-ignore обращаемся к this как к элементу, по которому кликнули
             var elem = this;
-            var checkboxElem = document.querySelector(".main__wrapper-checkbox");
-            var repeatPassElem = document.querySelector(".main__wrapper-repeat");
-            var btnElem = document.querySelector(".main__button");
+            var checkboxElem = document.querySelector(".wrapper-checkbox");
+            var repeatPassElem = document.querySelector(".wrapper-repeat");
+            var btnElem = document.querySelector(".wrapper__addBtn");
             app.clearAllInputs([checkboxElem, repeatPassElem]);
             if (elem.textContent === "Авторизация") {
                 elem.textContent = "Регистрация";
@@ -53,15 +67,17 @@ var Authorization = /** @class */ (function () {
     };
     Authorization.prototype.clearAllInputs = function (inputs) {
         var checkboxElem = inputs[0], repeatPassElem = inputs[1];
+        var password = document.querySelector(".wrapper-password");
         checkboxElem.checked = false;
         repeatPassElem.value = "";
-        document.querySelector(".main__wrapper-repeat1").value = "";
-        document.querySelector(".main__wrapper-password").value = "";
-        document.querySelector(".main__wrapper-login").value = "";
+        document.querySelector(".wrapper-repeat1").value = "";
+        password.value = "";
+        password.type = "password";
+        document.querySelector(".wrapper__div-login").value = "";
     };
     ;
     Authorization.prototype.registerNewUser = function (login, password) {
-        var repeatPassword = document.querySelector(".main__wrapper-repeat1");
+        var repeatPassword = document.querySelector(".wrapper-repeat1");
         if (login.value.trim().length === 0 || login.value.includes("$")
             || password.value.trim().length === 0 || password.value !== repeatPassword.value) {
             alert("Некорректный логин или пароль");
