@@ -7,9 +7,11 @@
 }
 class CompanyApp{
     public companiesList: Company[] = [];
+    private allCompaniesOnPage: Element[] = [];
+    private industriesSet: Set<string> = new Set<string>();
+    private typesSet: Set<string> = new Set<string>();
     constructor(public companiesCount: number) {
         if(this.checkIfHashed()){
-            // @ts-ignore
             this.displayCompanies(this.companiesList);
             window.addEventListener("scroll", this.addNewCompanies.bind(this));
             this.initialiseAllBtns();
@@ -21,6 +23,92 @@ class CompanyApp{
                 .then(v => this.initialiseAllBtns());
         }
         this.initialiseProfile();
+        this.initialiseFilters();
+    }
+    public initialiseFilters(): void{
+        this.initialiseNameFilter();
+        this.initialiseIndustryFilter();
+        this.initialiseTypeFilter();
+    }
+    public initialiseNameFilter(): void{
+        const checkBox = document.querySelector(".companies-filter__name") as HTMLInputElement;
+        checkBox!
+            .addEventListener("change", () => {
+                const companiesListElement = document.querySelector(".companies-list");
+                //@ts-ignore берём массив элементов компаний
+                const companies = [...companiesListElement!.children];
+                if(!checkBox.checked){
+                    companiesListElement!.innerHTML = "";
+                    this.allCompaniesOnPage.forEach(c => companiesListElement!.append(c));
+                    return;
+                }
+                this.allCompaniesOnPage = [...companies];
+                companies.sort((f,s) =>
+                    this.customCompateTo((f.children[0].children[0] as HTMLElement)!.innerText,
+                    (s.children[0].children[0] as HTMLElement)!.innerText));
+                companiesListElement!.innerHTML = "";
+                companies.forEach(c => companiesListElement!.append(c));
+            });
+    }
+    public initialiseIndustryFilter(): void{
+        const selectElement = document.querySelector(".companies-filter__industry") as HTMLSelectElement;
+        selectElement.addEventListener("change", () =>{
+            const companiesListElement = document.querySelector(".companies-list");
+            const companies = companiesListElement!.children as unknown as Array<HTMLElement>;
+            const typeElement = document.querySelector(".companies-filter__type") as HTMLSelectElement;
+            if(selectElement.value === "All"){
+                for (const c of companies)
+                    if(typeElement.value === "All" || c.children[0].children[3].innerHTML
+                        .split(": ")[1].trim() === typeElement.value) {
+                        c.style.display = "flex";
+                    }
+                return;
+            }
+            for (const c of companies){
+                if(c.children[0].children[2].innerHTML.split(": ")[1].trim() === selectElement.value
+                    && (typeElement.value === "All" || c.children[0].children[3].innerHTML
+                        .split(": ")[1].trim() === typeElement.value))
+                    (c as HTMLElement).style.display = "flex";
+                else
+                    (c as HTMLElement).style.display = "none";
+            }
+        });
+    }
+    public initialiseTypeFilter(): void{
+        const typeElement = document.querySelector(".companies-filter__type") as HTMLSelectElement;
+        typeElement.addEventListener("change", () =>{
+            const companiesListElement = document.querySelector(".companies-list");
+            const companies = companiesListElement!.children as unknown as Array<HTMLElement>;
+            const industryElement = document.querySelector(".companies-filter__industry") as HTMLSelectElement;
+            if(typeElement.value === "All"){
+                for (const c of companies) {
+                    if(industryElement.value === "All" || c.children[0].children[2].innerHTML
+                                .split(": ")[1].trim() === industryElement.value) {
+                        c.style.display = "flex";
+                    }
+                }
+                return;
+            }
+            for (const c of companies){
+                if(c.children[0].children[3].innerHTML.split(": ")[1].trim() === typeElement.value
+                && (industryElement.value === "All" || c.children[0].children[2].innerHTML
+                        .split(": ")[1].trim() === industryElement.value))
+                    (c as HTMLElement).style.display = "flex";
+                else
+                    (c as HTMLElement).style.display = "none";
+            }
+        });
+    }
+    public filtersAreSetToDefault(): boolean{
+        const nameFilter = document.querySelector(".companies-filter__name") as HTMLInputElement;
+        const industryFilter = document.querySelector(".companies-filter__industry") as HTMLSelectElement;
+        const typeFilter = document.querySelector(".companies-filter__type") as HTMLSelectElement;
+        return !nameFilter.checked && industryFilter.value === "All" && typeFilter.value === "All";
+    }
+    public customCompateTo(a: string, b: string): number{
+        const aToLower = a.toLowerCase();
+        const bToLower = b.toLowerCase();
+        return (aToLower > bToLower) ? 1 : (aToLower < bToLower) ? -1 : 0;
     }
     public checkIfHashed(): boolean{
         const companiesValue = localStorage.getItem("$companiesList");
@@ -35,6 +123,8 @@ class CompanyApp{
             = localStorage.getItem("$authorized") ?? "не авторизован";
     }
     public addNewCompanies(): void{
+        if(!this.filtersAreSetToDefault())
+            return;
         const companyElem = document.querySelector(".company-logo");
         if(document.body.scrollHeight - window.pageYOffset <= window.innerHeight)
             this.fillCompanies(this.companiesCount);
@@ -81,6 +171,10 @@ class CompanyApp{
             function (){
             if(localStorage.getItem("$authorized") === null){
                 alert("Отказано в доступе. Сначала авторизуйтесь!")
+                return;
+            }
+            else if(!companyApp.filtersAreSetToDefault()){
+                alert("Нельзя добавлять компании во время фильтрации");
                 return;
             }
             this.style.display = "none";
@@ -138,14 +232,34 @@ class CompanyApp{
         newElementsArray.forEach((c: Company) => this.companiesList.push(c));
         this.displayCompanies(newElementsArray);
     }
+    public addNewIndustry(industry: string): void{
+        this.industriesSet.add(industry);
+        const newOption = document.createElement("option") as HTMLOptionElement;
+        newOption.value = industry;
+        newOption.innerText = industry;
+        document.querySelector(".companies-filter__industry")!
+            .append(newOption);
+    }
+    public addNewType(type: string): void{
+        this.typesSet.add(type);
+        const newOption = document.createElement("option") as HTMLOptionElement;
+        newOption.value = type;
+        newOption.innerText = type;
+        document.querySelector(".companies-filter__type")!
+            .append(newOption);
+    }
     public displayCompanies(companiesToDisplay: Company[]) : void{
         const companiesListElement = document.querySelector(".companies-list");
         for (let i = this.companiesList.length - companiesToDisplay.length; i < this.companiesList.length ; i++) {
-            companiesListElement!.append(this.createCompanyElement(this.companiesList[i],i))
+            companiesListElement!.append(this.createCompanyElement(this.companiesList[i],i));
+            if(!this.industriesSet.has(this.companiesList[i].industry))
+                this.addNewIndustry(this.companiesList[i].industry);
+            if("type" in this.companiesList[i] && !this.typesSet.has(this.companiesList[i].type))
+                this.addNewType(this.companiesList[i].type)
         }
         localStorage.setItem("$companiesList", JSON.stringify(this.companiesList));
     }
-    public createCompanyElement(company: Company, index: number){
+    public createCompanyElement(company: Company, index: number = NaN){
         const companyWrapperElement = document.createElement("div");
         companyWrapperElement.innerHTML = `
         <div class="company-description">
@@ -174,4 +288,4 @@ class CompanyApp{
     }
 }
 
-new CompanyApp(4);
+let companyApp = new CompanyApp(4);

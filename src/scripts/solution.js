@@ -34,6 +34,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 var Company = /** @class */ (function () {
     function Company(business_name, industry, logo, isAvailableInRussia, bs_company_statement, buzzword, catch_phrase, duns_number, employee_identification_number, full_address, id, latitude, longitude, phone_number, suffix, type, uid) {
         this.business_name = business_name;
@@ -61,8 +70,10 @@ var CompanyApp = /** @class */ (function () {
         var _this = this;
         this.companiesCount = companiesCount;
         this.companiesList = [];
+        this.allCompaniesOnPage = [];
+        this.industriesSet = new Set();
+        this.typesSet = new Set();
         if (this.checkIfHashed()) {
-            // @ts-ignore
             this.displayCompanies(this.companiesList);
             window.addEventListener("scroll", this.addNewCompanies.bind(this));
             this.initialiseAllBtns();
@@ -73,7 +84,99 @@ var CompanyApp = /** @class */ (function () {
                 .then(function (v) { return _this.initialiseAllBtns(); });
         }
         this.initialiseProfile();
+        this.initialiseFilters();
     }
+    CompanyApp.prototype.initialiseFilters = function () {
+        this.initialiseNameFilter();
+        this.initialiseIndustryFilter();
+        this.initialiseTypeFilter();
+    };
+    CompanyApp.prototype.initialiseNameFilter = function () {
+        var _this = this;
+        var checkBox = document.querySelector(".companies-filter__name");
+        checkBox
+            .addEventListener("change", function () {
+            var companiesListElement = document.querySelector(".companies-list");
+            //@ts-ignore берём массив элементов компаний
+            var companies = __spreadArray([], companiesListElement.children, true);
+            if (!checkBox.checked) {
+                companiesListElement.innerHTML = "";
+                _this.allCompaniesOnPage.forEach(function (c) { return companiesListElement.append(c); });
+                return;
+            }
+            _this.allCompaniesOnPage = __spreadArray([], companies, true);
+            companies.sort(function (f, s) {
+                return _this.customCompateTo(f.children[0].children[0].innerText, s.children[0].children[0].innerText);
+            });
+            companiesListElement.innerHTML = "";
+            companies.forEach(function (c) { return companiesListElement.append(c); });
+        });
+    };
+    CompanyApp.prototype.initialiseIndustryFilter = function () {
+        var selectElement = document.querySelector(".companies-filter__industry");
+        selectElement.addEventListener("change", function () {
+            var companiesListElement = document.querySelector(".companies-list");
+            var companies = companiesListElement.children;
+            var typeElement = document.querySelector(".companies-filter__type");
+            if (selectElement.value === "All") {
+                for (var _i = 0, companies_1 = companies; _i < companies_1.length; _i++) {
+                    var c = companies_1[_i];
+                    if (typeElement.value === "All" || c.children[0].children[3].innerHTML
+                        .split(": ")[1].trim() === typeElement.value) {
+                        c.style.display = "flex";
+                    }
+                }
+                return;
+            }
+            for (var _a = 0, companies_2 = companies; _a < companies_2.length; _a++) {
+                var c = companies_2[_a];
+                if (c.children[0].children[2].innerHTML.split(": ")[1].trim() === selectElement.value
+                    && (typeElement.value === "All" || c.children[0].children[3].innerHTML
+                        .split(": ")[1].trim() === typeElement.value))
+                    c.style.display = "flex";
+                else
+                    c.style.display = "none";
+            }
+        });
+    };
+    CompanyApp.prototype.initialiseTypeFilter = function () {
+        var typeElement = document.querySelector(".companies-filter__type");
+        typeElement.addEventListener("change", function () {
+            var companiesListElement = document.querySelector(".companies-list");
+            var companies = companiesListElement.children;
+            var industryElement = document.querySelector(".companies-filter__industry");
+            if (typeElement.value === "All") {
+                for (var _i = 0, companies_3 = companies; _i < companies_3.length; _i++) {
+                    var c = companies_3[_i];
+                    if (industryElement.value === "All" || c.children[0].children[2].innerHTML
+                        .split(": ")[1].trim() === industryElement.value) {
+                        c.style.display = "flex";
+                    }
+                }
+                return;
+            }
+            for (var _a = 0, companies_4 = companies; _a < companies_4.length; _a++) {
+                var c = companies_4[_a];
+                if (c.children[0].children[3].innerHTML.split(": ")[1].trim() === typeElement.value
+                    && (industryElement.value === "All" || c.children[0].children[2].innerHTML
+                        .split(": ")[1].trim() === industryElement.value))
+                    c.style.display = "flex";
+                else
+                    c.style.display = "none";
+            }
+        });
+    };
+    CompanyApp.prototype.filtersAreSetToDefault = function () {
+        var nameFilter = document.querySelector(".companies-filter__name");
+        var industryFilter = document.querySelector(".companies-filter__industry");
+        var typeFilter = document.querySelector(".companies-filter__type");
+        return !nameFilter.checked && industryFilter.value === "All" && typeFilter.value === "All";
+    };
+    CompanyApp.prototype.customCompateTo = function (a, b) {
+        var aToLower = a.toLowerCase();
+        var bToLower = b.toLowerCase();
+        return (aToLower > bToLower) ? 1 : (aToLower < bToLower) ? -1 : 0;
+    };
     CompanyApp.prototype.checkIfHashed = function () {
         var companiesValue = localStorage.getItem("$companiesList");
         if (localStorage.getItem("$companiesList") !== null) {
@@ -88,6 +191,8 @@ var CompanyApp = /** @class */ (function () {
             = (_a = localStorage.getItem("$authorized")) !== null && _a !== void 0 ? _a : "не авторизован";
     };
     CompanyApp.prototype.addNewCompanies = function () {
+        if (!this.filtersAreSetToDefault())
+            return;
         var companyElem = document.querySelector(".company-logo");
         if (document.body.scrollHeight - window.pageYOffset <= window.innerHeight)
             this.fillCompanies(this.companiesCount);
@@ -133,6 +238,10 @@ var CompanyApp = /** @class */ (function () {
         document.querySelector(".button-add").addEventListener("click", function () {
             if (localStorage.getItem("$authorized") === null) {
                 alert("Отказано в доступе. Сначала авторизуйтесь!");
+                return;
+            }
+            else if (!companyApp.filtersAreSetToDefault()) {
+                alert("Нельзя добавлять компании во время фильтрации");
                 return;
             }
             this.style.display = "none";
@@ -204,15 +313,36 @@ var CompanyApp = /** @class */ (function () {
             });
         });
     };
+    CompanyApp.prototype.addNewIndustry = function (industry) {
+        this.industriesSet.add(industry);
+        var newOption = document.createElement("option");
+        newOption.value = industry;
+        newOption.innerText = industry;
+        document.querySelector(".companies-filter__industry")
+            .append(newOption);
+    };
+    CompanyApp.prototype.addNewType = function (type) {
+        this.typesSet.add(type);
+        var newOption = document.createElement("option");
+        newOption.value = type;
+        newOption.innerText = type;
+        document.querySelector(".companies-filter__type")
+            .append(newOption);
+    };
     CompanyApp.prototype.displayCompanies = function (companiesToDisplay) {
         var companiesListElement = document.querySelector(".companies-list");
         for (var i = this.companiesList.length - companiesToDisplay.length; i < this.companiesList.length; i++) {
             companiesListElement.append(this.createCompanyElement(this.companiesList[i], i));
+            if (!this.industriesSet.has(this.companiesList[i].industry))
+                this.addNewIndustry(this.companiesList[i].industry);
+            if ("type" in this.companiesList[i] && !this.typesSet.has(this.companiesList[i].type))
+                this.addNewType(this.companiesList[i].type);
         }
         localStorage.setItem("$companiesList", JSON.stringify(this.companiesList));
     };
     CompanyApp.prototype.createCompanyElement = function (company, index) {
         var _this = this;
+        if (index === void 0) { index = NaN; }
         var companyWrapperElement = document.createElement("div");
         companyWrapperElement.innerHTML = "\n        <div class=\"company-description\">\n            <h3 class=\"company-name\">".concat(company.business_name, "</h3>\n            <p class=\"company-catchPhrase\">").concat(company.catch_phrase, "</p>\n            <p>\u0412\u0438\u0434 \u0434\u0435\u044F\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u0438: ").concat(company.industry, "</p>\n            <p>\u0422\u0438\u043F \u043A\u043E\u043C\u043F\u0430\u043D\u0438\u0438: ").concat(company.type, "</p>\n            <p>\u041F\u0440\u0438\u0441\u0443\u0442\u0441\u0442\u0432\u0438\u0435 \u043D\u0430 \u0420\u043E\u0441\u0441\u0438\u0439\u0441\u043A\u043E\u043C \u0440\u044B\u043D\u043A\u0435: ").concat(company.isAvailableInRussia, "</p>\n        </div>\n        <div class=\"company-logo__wrapper\">\n            <img class = \"company-logo\" src=").concat(company.logo, " alt = \u041B\u043E\u0433\u043E:").concat(company.business_name, " width=\"650px\" height=\"250px\">\n        </div>\n        ");
         companyWrapperElement.classList.add("company-wrapper");
@@ -229,4 +359,4 @@ var CompanyApp = /** @class */ (function () {
     };
     return CompanyApp;
 }());
-new CompanyApp(4);
+var companyApp = new CompanyApp(4);

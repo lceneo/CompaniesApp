@@ -54,6 +54,19 @@
         <button class="button-add">Добавить компанию</button>
         <section class="companies">
             <h2 class="subtitle">Все компании:</h2>
+            <ul class = "companies-filter">
+                <li>По названию <input class="companies-filter__name" type="checkbox"></li>
+                <li>
+                    Вид деятельности<select class="companies-filter__industry" name = "filter-industry">
+                                        <option value="All">All</option>
+                                    </select>
+                </li>
+                <li>
+                    Тип компании<select class="companies-filter__type" name = "filter-type">
+                                    <option value="All">All</option>
+                </select>
+                </li>
+            </ul>
             <ul class="companies-list"></ul>
         </section>
     </main>
