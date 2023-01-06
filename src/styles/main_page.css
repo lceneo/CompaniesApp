@@ -1,14 +1,14 @@
 body{
     font-family: Consolas, sans-serif;
 }
-.buttons__list{
+.buttons{
     display: flex;
     padding-top: 10px;
     justify-content: flex-end;
     padding-right: 20px;
     list-style: none;
 }
-.buttons__list button{
+.buttons button{
     background-color: blue;
     color: papayawhip;
     border-color: darkblue;
@@ -17,59 +17,59 @@ body{
     width: 80px;
     transition: 0.25s;
 }
-.buttons__list button:hover{
+.buttons button:hover{
     cursor: pointer;
     transform: scale(1.1);
 }
-.profile__wrapper{
+.wrapper{
     display: flex;
     justify-content: flex-end;
 }
-.profile__wrapper img{
+.wrapper img{
     margin-top: 10px;
     margin-right: 70px;
     transition: 0.25s;
 }
-.profile__wrapper img:hover{
+.wrapper img:hover{
     transform: scale(1.1);
 }
-.profile__wrapper-user{
+.wrapper-user{
     margin-right: 30px;
     font-size: 18px;
     color: papayawhip;
 }
-.main__title{
+.title{
     text-align: center;
     color: cornflowerblue;
     margin-bottom: -5px;
 }
-.main__companies{
+.companies{
     margin: 0 auto;
     width: 1300px;
 }
-.main__description{
+.description{
     text-align: center;
     color: gray;
     margin-bottom: 50px;
 }
 
-.main__subtitle{
+.subtitle{
     margin-left: 50px;
 }
-.main__company-wrapper{
+.company-wrapper{
     display: flex;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0,0,0,0.3);
     margin-bottom: 20px;
 }
-.main__company-description{
+.company-description{
     order: 1;
     margin-left: 130px;
     padding-top: 15px;
     align-items: flex-start;
     margin-top: -30px;
 }
-.main__company-name{
+.company-name{
     font-size: 30px;
     margin-bottom: -10px;
     text-decoration: underline;
@@ -77,19 +77,19 @@ body{
     text-underline-offset: 10px;
     text-decoration-thickness: 2px;
 }
-.main__company-catchPhrase{
+.company-catchPhrase{
     color: gray;
     font-style: italic;
 }
-.main__company-wrapper:hover{
+.company-wrapper:hover{
     transform: scale(1.03);
     cursor: pointer;
 }
-.main__company-wrapper{
+.company-wrapper{
     transition: transform 0.25s;
 }
 
-.main__form-wrapper{
+.form-wrapper{
     position: relative;
     width:100%;
     min-height:100%;
@@ -98,7 +98,7 @@ body{
     position:fixed;
     top:0px;
 }
-.main__form-wrapper .main__form{
+.form-wrapper .form{
     margin:40px auto 0px auto;
     width:500px;
     height: 500px;
@@ -108,20 +108,20 @@ body{
     box-shadow: 0px 0px 10px #000;
 }
 
-.main__form{
+.form{
     font-size: 20px;
     display: flex;
     padding-left: 30px;
     flex-direction: column;
 }
-.main__form div{
+.form div{
     margin-bottom: 30px;
 }
-.main__form select{
+.form select{
     height: 30px;
 }
 
-.main__form input[type=checkbox]{
+.form input[type=checkbox]{
     width: 5mm;
     height: 5mm;
     border: 0.1mm solid black;
@@ -129,10 +129,10 @@ body{
     align-self: center;
 }
 
-.main__form input{
+.form input{
     height: 20px;
 }
-.main__button-save{
+.button-save{
     position: absolute;
     background-color: blue;
     color: papayawhip;
@@ -147,10 +147,10 @@ body{
 .form__logo{
     margin-left: 140px;
 }
-.main__button-save:hover{
+.button-save:hover{
     cursor: pointer;
 }
-.main__form p{
+.form p{
     margin: 0px;
     margin-left: 220px;
     margin-top: 5px;
@@ -158,7 +158,7 @@ body{
     font-style: italic;
     font-size: 14px;
 }
-.main__button-add{
+.button-add{
     background-color: blue;
     color: papayawhip;
     border-color: darkblue;
@@ -171,11 +171,11 @@ body{
     right: 25px;
     transition: transform 0.25s;
 }
-.main__button-add:hover{
+.button-add:hover{
     cursor: pointer;
     transform: scale(1.1);
 }
-.main__button-close{
+.button-close{
     position: absolute;
     transition: transform 0.25s;
     top: 5px;
@@ -188,8 +188,8 @@ body{
     border-radius: 50%;
 }
 
-.main__button-close:before,
-.main__button-close:after {
+.button-close:before,
+.button-close:after {
     content: "";
     position: absolute;
     top: 25px;
@@ -199,15 +199,15 @@ body{
     background-color: red;
 }
 
-.main__button-close:before {
+.button-close:before {
     webkit-transform: rotate(45deg);
     transform: rotate(45deg);
 }
 
-.main__button-close:after {
+.button-close:after {
     webkit-transform: rotate(-45deg);
     transform: rotate(-45deg);
 }
-.main__button-close:hover{
+.button-close:hover{
     transform: scale(1.1);
 }

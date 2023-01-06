@@ -84,11 +84,11 @@ var CompanyApp = /** @class */ (function () {
     };
     CompanyApp.prototype.initialiseProfile = function () {
         var _a;
-        document.querySelector(".profile__wrapper-user").textContent
+        document.querySelector(".wrapper-user").textContent
             = (_a = localStorage.getItem("$authorized")) !== null && _a !== void 0 ? _a : "не авторизован";
     };
     CompanyApp.prototype.addNewCompanies = function () {
-        var companyElem = document.querySelector(".main__company-logo");
+        var companyElem = document.querySelector(".company-logo");
         if (document.body.scrollHeight - window.pageYOffset <= window.innerHeight)
             this.fillCompanies(this.companiesCount);
         //if(window.pageYOffset >= companyElem!.scrollHeight * (this.companiesList.length - 2))
@@ -123,36 +123,34 @@ var CompanyApp = /** @class */ (function () {
         });
     };
     CompanyApp.prototype.initialiseCloseBtn = function () {
-        var btn = document.querySelector(".main__button-close");
+        var btn = document.querySelector(".button-close");
         btn.addEventListener("click", function () {
             btn.parentElement.style.display = "none";
-            document.querySelector(".main__button-add").style.display = "block";
+            document.querySelector(".button-add").style.display = "block";
         });
     };
     CompanyApp.prototype.initialiseAddBtn = function () {
-        document.querySelector(".main__button-add").addEventListener("click", function () {
+        document.querySelector(".button-add").addEventListener("click", function () {
             if (localStorage.getItem("$authorized") === null) {
                 alert("Отказано в доступе. Сначала авторизуйтесь!");
                 return;
             }
             this.style.display = "none";
-            document.querySelector(".main__form-wrapper").style.display = "block";
-            document.querySelector(".main__form-name").value = "";
-            document.querySelector(".main__form-type").value = "None";
+            document.querySelector(".form-wrapper").style.display = "block";
+            document.querySelector(".form-name").value = "";
+            document.querySelector(".form-type").value = "None";
         });
     };
     CompanyApp.prototype.uploadCompanyLogo = function (logo) {
-        console.log(logo.files);
         return logo.files.length !== 0 ? URL.createObjectURL(logo.files[0]) : undefined;
     };
     CompanyApp.prototype.initialiseSaveBtn = function () {
         var _this = this;
-        document.querySelector(".main__button-save").addEventListener("click", function () {
+        document.querySelector(".button-save").addEventListener("click", function () {
             if (_this.formIsFilled()) {
-                var companyNameElement = document.querySelector(".main__form-name");
-                var companyIndustryElement = document.querySelector(".main__form-type");
-                var companyInRussia = document.querySelector(".main__form-checkbox");
-                console.log(document.querySelector(".form__logo"));
+                var companyNameElement = document.querySelector(".form-name");
+                var companyIndustryElement = document.querySelector(".form-type");
+                var companyInRussia = document.querySelector(".form-checkbox");
                 var companyLogo = _this.uploadCompanyLogo(document.querySelector(".form__logo"));
                 // остальные заполняем undefined
                 // @ts-ignore
@@ -162,15 +160,15 @@ var CompanyApp = /** @class */ (function () {
                 companyNameElement.value = "";
                 companyIndustryElement.value = "None";
                 companyInRussia.checked = false;
-                document.querySelector(".main__form-wrapper").style.display = "none";
-                document.querySelector(".main__button-add").style.display = "block";
+                document.querySelector(".form-wrapper").style.display = "none";
+                document.querySelector(".button-add").style.display = "block";
                 console.log(JSON.stringify(newCompany));
             }
         });
     };
     CompanyApp.prototype.formIsFilled = function () {
-        var inputNameText = document.querySelector(".main__form-name").value;
-        var selectedIndustry = document.querySelector(".main__form-type").value;
+        var inputNameText = document.querySelector(".form-name").value;
+        var selectedIndustry = document.querySelector(".form-type").value;
         if (inputNameText === null || inputNameText.trim().length === 0 || inputNameText.length > 15) {
             alert("Некорректное имя компании");
             return false;
@@ -207,16 +205,17 @@ var CompanyApp = /** @class */ (function () {
         });
     };
     CompanyApp.prototype.displayCompanies = function (companiesToDisplay) {
-        var companiesListElement = document.querySelector(".main__companies-list");
+        var companiesListElement = document.querySelector(".companies-list");
         for (var i = this.companiesList.length - companiesToDisplay.length; i < this.companiesList.length; i++) {
             companiesListElement.append(this.createCompanyElement(this.companiesList[i], i));
         }
+        localStorage.setItem("$companiesList", JSON.stringify(this.companiesList));
     };
     CompanyApp.prototype.createCompanyElement = function (company, index) {
         var _this = this;
         var companyWrapperElement = document.createElement("div");
-        companyWrapperElement.innerHTML = "\n        <div class=\"main__company-description\">\n            <h3 class=\"main__company-name\">".concat(company.business_name, "</h3>\n            <p class=\"main__company-catchPhrase\">").concat(company.catch_phrase, "</p>\n            <p>\u0412\u0438\u0434 \u0434\u0435\u044F\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u0438: ").concat(company.industry, "</p>\n            <p>\u0422\u0438\u043F \u043A\u043E\u043C\u043F\u0430\u043D\u0438\u0438: ").concat(company.type, "</p>\n            <p>\u041F\u0440\u0438\u0441\u0443\u0442\u0441\u0442\u0432\u0438\u0435 \u043D\u0430 \u0420\u043E\u0441\u0441\u0438\u0439\u0441\u043A\u043E\u043C \u0440\u044B\u043D\u043A\u0435: ").concat(company.isAvailableInRussia, "</p>\n        </div>\n        <div class=\"main__company-logo__wrapper\">\n            <img class = \"main__company-logo\" src=").concat(company.logo, " alt = \u041B\u043E\u0433\u043E:").concat(company.business_name, " width=\"650px\" height=\"250px\">\n        </div>\n        ");
-        companyWrapperElement.classList.add("main__company-wrapper");
+        companyWrapperElement.innerHTML = "\n        <div class=\"company-description\">\n            <h3 class=\"company-name\">".concat(company.business_name, "</h3>\n            <p class=\"company-catchPhrase\">").concat(company.catch_phrase, "</p>\n            <p>\u0412\u0438\u0434 \u0434\u0435\u044F\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u0438: ").concat(company.industry, "</p>\n            <p>\u0422\u0438\u043F \u043A\u043E\u043C\u043F\u0430\u043D\u0438\u0438: ").concat(company.type, "</p>\n            <p>\u041F\u0440\u0438\u0441\u0443\u0442\u0441\u0442\u0432\u0438\u0435 \u043D\u0430 \u0420\u043E\u0441\u0441\u0438\u0439\u0441\u043A\u043E\u043C \u0440\u044B\u043D\u043A\u0435: ").concat(company.isAvailableInRussia, "</p>\n        </div>\n        <div class=\"company-logo__wrapper\">\n            <img class = \"company-logo\" src=").concat(company.logo, " alt = \u041B\u043E\u0433\u043E:").concat(company.business_name, " width=\"650px\" height=\"250px\">\n        </div>\n        ");
+        companyWrapperElement.classList.add("company-wrapper");
         companyWrapperElement.id = "".concat(index);
         companyWrapperElement.addEventListener("click", function (ev) {
             if (localStorage.getItem("$authorized") === null) {
@@ -224,7 +223,6 @@ var CompanyApp = /** @class */ (function () {
                 return;
             }
             localStorage.setItem("$company", JSON.stringify(_this.companiesList[parseInt(companyWrapperElement.id)]));
-            localStorage.setItem("$companiesList", JSON.stringify(_this.companiesList));
             window.location.href = "company_info.html";
         });
         return companyWrapperElement;
