@@ -162,8 +162,9 @@ class CompanyApp{
         const btn = document.querySelector(".button-close");
         btn!.addEventListener("click",
             () => {
-            btn!.parentElement!.style.display = "none";
+            btn!.parentElement!.parentElement!.style.display = "none";
             (document.querySelector(".button-add") as HTMLElement).style.display = "block";
+            (document.querySelector(".companies") as HTMLElement).style.position = "relative";
         });
     }
     public initialiseAddBtn(): void{
@@ -178,6 +179,7 @@ class CompanyApp{
                 return;
             }
             this.style.display = "none";
+            (document.querySelector(".companies") as HTMLElement).style.position = "static";
             (document.querySelector(".form-wrapper") as HTMLElement).style.display = "block";
             (document.querySelector(".form-name") as HTMLInputElement).value = "";
             (document.querySelector(".form-type") as HTMLSelectElement).value = "None";
@@ -204,6 +206,7 @@ class CompanyApp{
                     companyInRussia.checked = false;
                     (document.querySelector(".form-wrapper") as HTMLElement).style.display = "none";
                     (document.querySelector(".button-add") as HTMLElement).style.display = "block";
+                    (document.querySelector(".companies") as HTMLElement).style.position = "relative";
                     console.log(JSON.stringify(newCompany));
                 }
             });

@@ -230,8 +230,9 @@ var CompanyApp = /** @class */ (function () {
     CompanyApp.prototype.initialiseCloseBtn = function () {
         var btn = document.querySelector(".button-close");
         btn.addEventListener("click", function () {
-            btn.parentElement.style.display = "none";
+            btn.parentElement.parentElement.style.display = "none";
             document.querySelector(".button-add").style.display = "block";
+            document.querySelector(".companies").style.position = "relative";
         });
     };
     CompanyApp.prototype.initialiseAddBtn = function () {
@@ -245,6 +246,7 @@ var CompanyApp = /** @class */ (function () {
                 return;
             }
             this.style.display = "none";
+            document.querySelector(".companies").style.position = "static";
             document.querySelector(".form-wrapper").style.display = "block";
             document.querySelector(".form-name").value = "";
             document.querySelector(".form-type").value = "None";
@@ -271,6 +273,7 @@ var CompanyApp = /** @class */ (function () {
                 companyInRussia.checked = false;
                 document.querySelector(".form-wrapper").style.display = "none";
                 document.querySelector(".button-add").style.display = "block";
+                document.querySelector(".companies").style.position = "relative";
                 console.log(JSON.stringify(newCompany));
             }
         });

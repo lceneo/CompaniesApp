@@ -1,6 +1,7 @@
 body{
     font-family: Consolas, sans-serif;
 }
+
 .title{
     text-align: center;
     color: cornflowerblue;
@@ -20,7 +21,7 @@ body{
     flex-direction: column;
     padding-top: 30px;
     margin-top: 30px;
-    margin-bottom: 99px;
+    margin-bottom: 100px;
 }
 
 .wrapper div{

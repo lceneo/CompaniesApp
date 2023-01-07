@@ -31,8 +31,7 @@ class CompanyDetailedInfo{
             </div>
             <div class="company-location">
                 <h2>Местоположение на карте:</h2>
-            </div>
-        `
+            </div>`
         this.createMap();
         document.querySelector("main")!.append(companyWrapper);
     }

@@ -3,7 +3,8 @@ body{
 }
 .buttons{
     display: flex;
-    padding-top: 10px;
+    padding-top: 0px;
+    margin-top: 5px;
     justify-content: flex-end;
     padding-right: 20px;
     list-style: none;
@@ -45,6 +46,7 @@ body{
 }
 .companies{
     margin: 0 auto;
+    position: relative;
     width: 1300px;
 }
 .description{
@@ -111,6 +113,7 @@ body{
 .form{
     font-size: 20px;
     display: flex;
+    position: relative;
     padding-left: 30px;
     flex-direction: column;
 }
@@ -141,8 +144,13 @@ body{
     border-color: darkblue;
     width: 300px;
     border-radius: 10%;
-    left: 39%;
-    bottom: 125px;
+    left: 130px;
+    bottom: 30px;
+    transition: 0.25s;
+}
+.button-save:hover{
+    transform:scale(1.05);
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
 }
 .form__logo{
     margin-left: 140px;
@@ -165,10 +173,10 @@ body{
     font-size: 22px;
     width: 390px;
     height: 45px;
-    top: 288px;
+    top: 25px;
     padding: 10px;
     position: absolute;
-    right: 25px;
+    right: 0px;
     transition: transform 0.25s;
 }
 .button-add:hover{
@@ -178,8 +186,8 @@ body{
 .button-close{
     position: absolute;
     transition: transform 0.25s;
-    top: 5px;
-    right: 30px;
+    top: -15px;
+    right: -10px;
     width: 55px;
     height: 55px;
     cursor: pointer;
